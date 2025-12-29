@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TaskMaster - Modern To-Do List Application">
+    <meta name="author" content="Your Name">
+    <title>TaskMaster | Dashboard</title>
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- ========== LEFT SIDEBAR ========== -->
+        <aside class="sidebar">
+            <!-- Logo -->
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">TaskMaster</span>
+            </div>
+
+            <!-- Main Menu -->
+            <nav class="nav-section">
+                <h3 class="nav-title">MAIN MENU</h3>
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">🏠</span>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">📅</span>
+                            <span class="nav-text">Calendar</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">📊</span>
+                            <span class="nav-text">Analytics</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <span class="nav-icon">⚙️</span>
+                            <span class="nav-text">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Collections -->
+            <nav class="nav-section">
+                <h3 class="nav-title">COLLECTIONS</h3>
+                <ul class="nav-list collections-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-category="personal">
+                            <span class="category-dot personal"></span>
+                            <span class="nav-text">Personal</span>
+                            <span class="task-count" id="personal-count">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-category="work">
+                            <span class="category-dot work"></span>
+                            <span class="nav-text">Work</span>
+                            <span class="task-count" id="work-count">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-category="study">
+                            <span class="category-dot study"></span>
+                            <span class="nav-text">Study</span>
+                            <span class="task-count" id="study-count">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-category="shopping">
+                            <span class="category-dot shopping"></span>
+                            <span class="nav-text">Shopping</span>
+                            <span class="task-count" id="shopping-count">0</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Add Collection Button -->
+                <button class="add-collection-btn" id="add-collection-btn">
+                    <span>+</span> Add Collection
+                </button>
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-info">
+                        <span class="user-name">John Doe</span>
+                        <span class="user-email">john@example.com</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Add this in the sidebar, before sidebar-footer -->
+<nav class="nav-section">
+    <h3 class="nav-title">DATA MANAGEMENT</h3>
+    <ul class="nav-list">
+        <li class="nav-item">
+            <a href="#" class="nav-link" id="export-xml-btn">
+                <span class="nav-icon">📤</span>
+                <span class="nav-text">Export to XML</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link" id="import-xml-btn">
+                <span class="nav-icon">📥</span>
+                <span class="nav-text">Import from XML</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link" id="load-xml-btn">
+                <span class="nav-icon">📄</span>
+                <span class="nav-text">Load XML Data</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<!-- Hidden file input for import -->
+<input type="file" id="xml-file-input" accept=".xml" style="display: none;">
+        <!-- ========== MAIN CONTENT ========== -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 class="page-title">Dashboard</h1>
+                    <p class="current-date" id="current-date">Loading date...</p>
+                </div>
+                <div class="header-right">
+                    <!-- Add this at the beginning of .header-right -->
+                     <button class="hamburger-btn" id="hamburger-btn">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <!-- Search Bar -->
+                    <div class="search-container">
+                        <span class="search-icon">🔍</span>
+                        <input 
+                            type="text" 
+                            class="search-input" 
+                            id="search-tasks" 
+                            placeholder="Search tasks..."
+                        >
+                    </div>
+                    <!-- Notification -->
+                    <button class="notification-btn" id="notification-btn">
+                        <span class="notif-icon">🔔</span>
+                        <span class="notif-badge">3</span>
+                    </button>
+                    <!-- Theme Toggle -->
+                    <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+                        🌙
+                    </button>
+                </div>
+            </header>
+
+            <!-- Add Task Section -->
+            <section class="add-task-section">
+                <form id="task-form" class="task-form">
+                    <div class="form-input-group">
+                        <input 
+                            type="text" 
+                            id="task-title" 
+                            name="taskTitle"
+                            class="task-input" 
+                            placeholder="What's on your mind today?"
+                            required
+                            maxlength="100"
+                            autocomplete="off"
+                        >
+                        <span class="input-focus-border"></span>
+                    </div>
+
+                    <div class="form-select-group">
+                        <span class="select-icon">👤</span>
+                        <select id="task-category" name="taskCategory" class="task-select">
+                            <option value="personal">Personal</option>
+                            <option value="work">Work</option>
+                            <option value="study">Study</option>
+                            <option value="shopping">Shopping</option>
+                        </select>
+                    </div>
+
+                    <div class="form-select-group">
+                        <span class="priority-indicator" id="priority-indicator"></span>
+                        <select id="task-priority" name="taskPriority" class="task-select">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+
+                    <div class="form-select-group date-group">
+                        <span class="select-icon">📅</span>
+                        <input 
+                            type="date" 
+                            id="task-due-date" 
+                            name="taskDueDate"
+                            class="task-select date-input"
+                        >
+                    </div>
+
+                    <button type="submit" class="add-task-btn" id="add-task-btn">
+                        <span class="btn-text">Add</span>
+                        <span class="btn-icon">+</span>
+                    </button>
+                </form>
+                <div class="form-error" id="form-error"></div>
+            </section>
+
+            <!-- Filter Tabs -->
+            <section class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">
+                    All Tasks
+                    <span class="tab-count" id="all-count">0</span>
+                </button>
+                <button class="filter-tab" data-filter="active">
+                    Active
+                    <span class="tab-count" id="active-count">0</span>
+                </button>
+                <button class="filter-tab" data-filter="completed">
+                    Completed
+                    <span class="tab-count" id="completed-count">0</span>
+                </button>
+            </section>
+
+            <!-- Task List Section -->
+            <section class="task-list-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        Active Tasks 
+                        <span class="badge" id="active-badge">0</span>
+                    </h2>
+                    <div class="sort-options">
+                        <label for="sort-by">Sort by:</label>
+                        <select id="sort-by" class="sort-select">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="priority">Priority</option>
+                            <option value="due-date">Due Date</option>
+                            <option value="alphabetical">A-Z</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="empty-state">
+                    <div class="empty-icon">📝</div>
+                    <h3>No tasks yet!</h3>
+                    <p>Add your first task above to get started</p>
+                </div>
+
+                <!-- Task List -->
+                <ul class="task-list" id="task-list">
+                    <!-- Tasks will be dynamically inserted here by JavaScript -->
+                </ul>
+            </section>
+
+            <!-- Completed Tasks Section -->
+            <section class="task-list-section completed-section" id="completed-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        Completed 
+                        <span class="badge completed-badge" id="completed-badge">0</span>
+                    </h2>
+                    <button class="clear-completed-btn" id="clear-completed-btn">
+                        🗑️ Clear All
+                    </button>
+                </div>
+                <ul class="task-list completed-list" id="completed-list">
+                    <!-- Completed tasks will be here -->
+                </ul>
+            </section>
+        </main>
+
+        <!-- ========== RIGHT SIDEBAR ========== -->
+        <aside class="right-sidebar">
+            <!-- Workload Balance -->
+            <div class="widget workload-widget">
+                <h3 class="widget-title">WORKLOAD BALANCE</h3>
+                <div class="progress-ring-container">
+                    <svg class="progress-ring" viewBox="0 0 120 120">
+                        <defs>
+                            <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff"/>
+                                <stop offset="50%" style="stop-color:#7c3aed"/>
+                                <stop offset="100%" style="stop-color:#ff6b9d"/>
+                            </linearGradient>
+                        </defs>
+                        <circle 
+                            class="progress-ring-bg" 
+                            cx="60" 
+                            cy="60" 
+                            r="52"
+                        />
+                        <circle 
+                            class="progress-ring-fill" 
+                            id="progress-ring-fill"
+                            cx="60" 
+                            cy="60" 
+                            r="52"
+                            stroke="url(#progressGradient)"
+                        />
+                    </svg>
+                    <div class="progress-ring-text">
+                        <span class="progress-percent" id="progress-percent">0%</span>
+                        <span class="progress-label">Complete</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Progress -->
+            <div class="widget task-progress-widget">
+                <h3 class="widget-title">TASK PROGRESS</h3>
+                <div class="progress-card">
+                    <div class="progress-info">
+                        <span class="progress-status">COMPLETED</span>
+                        <span class="progress-numbers" id="progress-numbers">0/0</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Priority Breakdown -->
+            <div class="widget priority-widget">
+                <h3 class="widget-title">PRIORITY BREAKDOWN</h3>
+                <div class="priority-list">
+                    <div class="priority-item">
+                        <span class="priority-dot high"></span>
+                        <span class="priority-label">High</span>
+                        <span class="priority-count" id="high-priority-count">0</span>
+                    </div>
+                    <div class="priority-item">
+                        <span class="priority-dot medium"></span>
+                        <span class="priority-label">Medium</span>
+                        <span class="priority-count" id="medium-priority-count">0</span>
+                    </div>
+                    <div class="priority-item">
+                        <span class="priority-dot low"></span>
+                        <span class="priority-label">Low</span>
+                        <span class="priority-count" id="low-priority-count">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Deadlines -->
+            <div class="widget deadlines-widget">
+                <h3 class="widget-title">UPCOMING DEADLINES</h3>
+                <div class="deadlines-list" id="deadlines-list">
+                    <div class="no-deadlines">
+                        <span>📅</span>
+                        <p>No upcoming deadlines</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="widget stats-widget">
+                <h3 class="widget-title">TODAY'S SUMMARY</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-icon">✅</span>
+                        <div class="stat-info">
+                            <span class="stat-value" id="today-completed">0</span>
+                            <span class="stat-label">Done Today</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">⏰</span>
+                        <div class="stat-info">
+                            <span class="stat-value" id="today-pending">0</span>
+                            <span class="stat-label">Pending</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- ========== EDIT TASK MODAL ========== -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Edit Task</h2>
+                <button class="modal-close" id="modal-close">×</button>
+            </div>
+            <form id="edit-task-form" class="modal-form">
+                <input type="hidden" id="edit-task-id">
+                
+                <div class="modal-form-group">
+                    <label for="edit-task-title">Task Title</label>
+                    <input 
+                        type="text" 
+                        id="edit-task-title" 
+                        required
+                        maxlength="100"
+                        placeholder="Enter task title..."
+                    >
+                </div>
+
+                <div class="modal-form-group">
+                    <label for="edit-task-description">Description (Optional)</label>
+                    <textarea 
+                        id="edit-task-description" 
+                        rows="3"
+                        maxlength="500"
+                        placeholder="Add more details..."
+                    ></textarea>
+                </div>
+
+                <div class="modal-form-row">
+                    <div class="modal-form-group">
+                        <label for="edit-task-category">Category</label>
+                        <select id="edit-task-category">
+                            <option value="personal">Personal</option>
+                            <option value="work">Work</option>
+                            <option value="study">Study</option>
+                            <option value="shopping">Shopping</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="edit-task-priority">Priority</label>
+                        <select id="edit-task-priority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-form-group">
+                        <label for="edit-task-due-date">Due Date</label>
+                        <input type="date" id="edit-task-due-date">
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="cancel-edit">Cancel</button>
+                    <button type="submit" class="btn-save">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========== DELETE CONFIRMATION MODAL ========== -->
+    <div class="modal-overlay" id="delete-modal">
+        <div class="modal delete-modal">
+            <div class="modal-icon">⚠️</div>
+            <h2>Delete Task?</h2>
+            <p>This action cannot be undone. Are you sure you want to delete this task?</p>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" id="cancel-delete">Cancel</button>
+                <button type="button" class="btn-delete" id="confirm-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TOAST NOTIFICATIONS ========== -->
+    <div class="toast-container" id="toast-container">
+        <!-- Toasts will be dynamically inserted here -->
+    </div>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="js/validation.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
